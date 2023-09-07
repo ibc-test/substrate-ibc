@@ -43,11 +43,10 @@ where
 		match data.as_str() {
 			TENDERMINT_CLIENT_TYPE => Ok(ClientType::new(TENDERMINT_CLIENT_TYPE.into())),
 			MOCK_CLIENT_TYPE => Ok(ClientType::new(MOCK_CLIENT_TYPE.into())),
-			unimplemented => {
+			unimplemented =>
 				return Err(ClientError::UnknownClientStateType {
 					client_state_type: unimplemented.to_string(),
-				})
-			},
+				}),
 		}
 	}
 
@@ -78,11 +77,11 @@ where
 
 	fn decode_client_state(&self, client_state: Any) -> Result<Box<dyn ClientState>, ClientError> {
 		if let Ok(client_state) = Ics07ClientState::try_from(client_state.clone()) {
-			return Ok(client_state.into_box());
+			return Ok(client_state.into_box())
 		}
 		#[cfg(test)]
 		if let Ok(client_state) = MockClientState::try_from(client_state.clone()) {
-			return Ok(client_state.into_box());
+			return Ok(client_state.into_box())
 		}
 		Err(ClientError::UnknownClientStateType { client_state_type: client_state.type_url })
 	}
@@ -154,14 +153,14 @@ where
 							.map_err(|e| ClientError::Other {
 								description: format!("Decode Ics07ConsensusState failed: {:?}", e),
 							})?;
-						return Ok(Some(Box::new(result)));
+						return Ok(Some(Box::new(result)))
 					},
 					MOCK_CLIENT_TYPE => {
 						let result: MockConsensusState = Protobuf::<Any>::decode_vec(&data)
 							.map_err(|e| ClientError::Other {
 								description: format!("Decode MockConsensusState failed: {:?}", e),
 							})?;
-						return Ok(Some(Box::new(result)));
+						return Ok(Some(Box::new(result)))
 					},
 					_ => {},
 				}
@@ -204,14 +203,14 @@ where
 						.map_err(|e| ClientError::Other {
 							description: format!("Decode Ics07ConsensusState failed: {:?}", e),
 						})?;
-						return Ok(Some(Box::new(result)));
+						return Ok(Some(Box::new(result)))
 					},
 					MOCK_CLIENT_TYPE => {
 						let result: MockConsensusState = Protobuf::<Any>::decode_vec(&data)
 							.map_err(|e| ClientError::Other {
 								description: format!("Decode MockConsensusState failed: {:?}", e),
 							})?;
-						return Ok(Some(Box::new(result)));
+						return Ok(Some(Box::new(result)))
 					},
 					_ => {},
 				}

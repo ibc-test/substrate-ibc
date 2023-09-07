@@ -36,7 +36,7 @@ pub mod pallet {
 	use frame_support::{
 		pallet_prelude::*,
 		traits::{
-			fungibles::{Mutate, Transfer},
+			fungibles::{Balanced, Mutate},
 			tokens::{AssetId, Balance as AssetBalance},
 			Currency,
 		},
@@ -78,7 +78,7 @@ pub mod pallet {
 		type AssetBalance: AssetBalance + From<u128> + Into<u128>;
 
 		/// Expose customizable associated type of asset transfer, lock and unlock
-		type Fungibles: Transfer<Self::AccountId, AssetId = Self::AssetId, Balance = Self::AssetBalance>
+		type Fungibles: Balanced<Self::AccountId>
 			+ Mutate<Self::AccountId, AssetId = Self::AssetId, Balance = Self::AssetBalance>;
 
 		/// Map of cross-chain asset ID & name
@@ -277,7 +277,7 @@ pub mod pallet {
 							"🐙🐙 pallet_ics20_transfer -> raw_transfer Error : {:?} ",
 							error
 						);
-						return Err(Error::<T>::TokenTransferError.into());
+						return Err(Error::<T>::TokenTransferError.into())
 					},
 				}
 			}
