@@ -31,8 +31,7 @@ pub mod pallet {
 	use super::*;
 	use crate::callback::IbcTransferModule;
 	// use crate::{callback::IbcTransferModule, LOG_TARGET};
-	use alloc::string::String;
-	use crate::alloc::string::ToString;
+	use crate::alloc::string::{String, ToString};
 	use frame_support::{
 		pallet_prelude::*,
 		traits::{
